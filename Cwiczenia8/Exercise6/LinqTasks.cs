@@ -214,8 +214,15 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task5()
         {
-            IEnumerable<object> result = null;
-            return result;
+            //Method syntax
+            IEnumerable<object> resultMethod = 
+                Emps.Select(e => new { Nazwisko = e.Ename, Praca = e.Job });
+            
+            //Query syntax
+            IEnumerable<object> resultQuery =
+                from e in Emps
+                select new { Nazwisko = e.Ename, Praca = e.Job };
+            return resultMethod;
         }
 
         /// <summary>
