@@ -164,7 +164,8 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Emp> Task1()
         {
-            IEnumerable<Emp> result = null;
+            IEnumerable<Emp> result = 
+                    Emps.Where(e => e.Job.Equals("Backend programmer"));
             return result;
         }
 
@@ -196,7 +197,7 @@ namespace Exercise6
         /// </summary>
         public static int Task3()
         {
-            int result = 0;
+            int result = Emps.Max(e => e.Salary);
             return result;
         }
 
