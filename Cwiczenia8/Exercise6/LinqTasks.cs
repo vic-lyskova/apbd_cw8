@@ -320,7 +320,18 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task11()
         {
-            IEnumerable<object> result = null;
+            IEnumerable<object> result = 
+                Emps.Join(
+                    Depts,
+                    e => e.Deptno,
+                    d => d.Deptno,
+                    (e, d) => new
+                    {
+                        name = d.Dname,
+                        eName = e.Ename
+                    })
+                    .GroupBy(ed => ed.name)
+                    .Select()
             return result;
         }
 
