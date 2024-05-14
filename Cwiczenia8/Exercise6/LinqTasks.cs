@@ -288,7 +288,11 @@ namespace Exercise6
         /// </summary>
         public static Emp Task9()
         {
-            Emp result = null;
+            Emp result = 
+                Emps
+                    .Where(e => e.Job.Equals("Frontend programmer"))
+                    .OrderByDescending(e => e.HireDate)
+                    .First();
             return result;
         }
 
