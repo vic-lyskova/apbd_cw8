@@ -206,7 +206,11 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Emp> Task4()
         {
-            IEnumerable<Emp> result = null;
+            IEnumerable<Emp> result = 
+                    Emps.Where(e => e.Salary.Equals(Emps.Max(em => em.Salary)));
+            
+            /*IEnumerable<Emp> result = 
+                Emps.Where(e => e.Salary.Equals(Task3()));*/
             return result;
         }
 
