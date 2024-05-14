@@ -276,7 +276,9 @@ namespace Exercise6
         /// </summary>
         public static bool Task8()
         {
-            bool result = false;
+            bool result =
+                Emps
+                    .Count(e => e.Job.Equals("Backend programmer")) > 0;
             return result;
         }
 
