@@ -237,7 +237,16 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task6()
         {
-            IEnumerable<object> result = null;
+            IEnumerable<object> result =
+                Emps.Join(Depts,
+                    e => e.Deptno,
+                    d => d.Deptno,
+                    (e, d) => new
+                    {
+                        e.Ename,
+                        e.Job,
+                        d.Dname
+                    });
             return result;
         }
 
