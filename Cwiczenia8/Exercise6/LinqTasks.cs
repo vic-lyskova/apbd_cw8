@@ -1,4 +1,6 @@
-﻿using Exercise6.Models;
+﻿using System.Collections;
+using System.Threading.Tasks.Dataflow;
+using Exercise6.Models;
 
 namespace Exercise6
 {
@@ -11,29 +13,29 @@ namespace Exercise6
         {
             #region Load depts
 
-            List<Dept> depts = 
+            List<Dept> depts =
 
             [
                 new Dept
 
-            {
-                Deptno = 1,
-                Dname = "Research",
-                Loc = "Warsaw"
-            },
-            new Dept
-            {
-                Deptno = 2,
-                Dname = "Human Resources",
-                Loc = "New York"
-            },
-            new Dept
+                {
+                    Deptno = 1,
+                    Dname = "Research",
+                    Loc = "Warsaw"
+                },
+                new Dept
+                {
+                    Deptno = 2,
+                    Dname = "Human Resources",
+                    Loc = "New York"
+                },
+                new Dept
                 {
                     Deptno = 3,
                     Dname = "IT",
                     Loc = "Los Angeles"
                 }
-                ];
+            ];
 
             Depts = depts;
 
@@ -151,13 +153,12 @@ namespace Exercise6
                 Salary = 9000
             };
 
-            List<Emp> emps = 
+            List<Emp> emps =
 
-            [
-                e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
-            ]
-
-            ;
+                [
+                    e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
+                ]
+                ;
 
             Emps = emps;
 
@@ -214,7 +215,7 @@ namespace Exercise6
             IEnumerable<Emp> result =
                 Emps.Where(e => e.Salary.Equals(Emps.Max(em => em.Salary)));
 
-            /*IEnumerable<Emp> result = 
+            /*IEnumerable<Emp> result =
                 Emps.Where(e => e.Salary.Equals(Task3()));*/
             return result;
         }
@@ -288,7 +289,7 @@ namespace Exercise6
         /// </summary>
         public static Emp Task9()
         {
-            Emp result = 
+            Emp result =
                 Emps
                     .Where(e => e.Job.Equals("Frontend programmer"))
                     .OrderByDescending(e => e.HireDate)
@@ -303,7 +304,15 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task10()
         {
-            IEnumerable<object> result = null;
+            IEnumerable<object> result =
+                    Emps
+                        .Select(e => new
+                        {
+                            e.Ename,
+                            e.Job,
+                            e.HireDate
+                        })
+                ;
             return result;
         }
 
@@ -320,18 +329,23 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task11()
         {
-            IEnumerable<object> result = 
+            IEnumerable<object> result =
                 Emps.Join(
-                    Depts,
-                    e => e.Deptno,
-                    d => d.Deptno,
-                    (e, d) => new
+                        Depts,
+                        e => e.Deptno,
+                        d => d.Deptno,
+                        (e, d) => new
+                        {
+                            dName = d.Dname,
+                            eName = e.Ename
+                        })
+                    .GroupBy(ed => ed.dName)
+                    .Where(ed => ed.Any())
+                    .Select(ed => new
                     {
-                        name = d.Dname,
-                        eName = e.Ename
-                    })
-                    .GroupBy(ed => ed.name)
-                    .Select()
+                        name = ed.Key,
+                        numOfEmployees = ed.Count()
+                    });
             return result;
         }
 
