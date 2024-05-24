@@ -358,7 +358,7 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Emp> Task12()
         {
-            IEnumerable<Emp> result = null;
+            IEnumerable<Emp> result = Emps.FindManagers();
             return result;
         }
 
@@ -391,5 +391,30 @@ namespace Exercise6
     public static class CustomExtensionMethods
     {
         //Put your extension methods here
+        public static IEnumerable<Emp> FindManagers(this IEnumerable<Emp> emps)
+        {
+            IEnumerable<Emp> mgrs =
+                emps
+                    .Where(e => e.Mgr is not null)
+                    .Join(
+                        emps,
+                        e => e.Mgr.Empno,
+                        m => m.Empno,
+                        (e, m) => new Emp
+                        {
+                            Empno = m.Empno,
+                            Ename = m.Ename,
+                            Job = m.Job,
+                            Salary = m.Salary,
+                            HireDate = m.HireDate,
+                            Deptno = m.Deptno,
+                            Mgr = m.Mgr
+                        }
+                    )
+                    .OrderBy(m => m.Ename)
+                    .ThenByDescending(m => m.Salary);
+
+            return mgrs;
+        }
     }
 }
