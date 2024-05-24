@@ -371,7 +371,11 @@ namespace Exercise6
         /// </summary>
         public static int Task13(int[] arr)
         {
-            int result = 0;
+            int result =
+                arr
+                    .GroupBy(e => e)
+                    .First(e => e.Count() % 2 != 0)
+                    .Key;
             //result=
             return result;
         }
