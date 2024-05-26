@@ -387,21 +387,9 @@ namespace Exercise6
         public static IEnumerable<Dept> Task14()
         {
             IEnumerable<Dept> result =
-                Depts
-                    .Join(Emps,
-                        d => d.Deptno,
-                        e => e.Deptno,
-                        (d, e) => new
-                        {
-                            Deptno = d.Deptno,
-                            Dname = d.Dname,
-                            Loc = d.Loc,
-                            Empno = e.Empno
-                        })
-                    .GroupBy(d => d.Dname)
-                    .Select(d => new Dept
-                    {
-                    });
+                Depts.Where(d => Emps.Count(e => e.Deptno == d.Deptno) == 5
+                                 || Emps.All(e => e.Deptno != d.Deptno))
+                    .OrderBy(d => d.Dname);
             //result =
             return result;
         }
