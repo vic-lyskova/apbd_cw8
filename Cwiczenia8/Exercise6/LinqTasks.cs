@@ -305,14 +305,14 @@ namespace Exercise6
         public static IEnumerable<object> Task10()
         {
             IEnumerable<object> result =
-                    Emps
-                        .Select(e => new
-                        {
-                            e.Ename,
-                            e.Job,
-                            e.HireDate
-                        })
-                ;
+                Emps
+                    .Select(e => new
+                    {
+                        e.Ename,
+                        e.Job,
+                        e.HireDate
+                    })
+                    .Union(Emps.Select(e => new {Ename = "Brak wartości", Job = string.Empty, HireDate = (DateTime?)null}));
             return result;
         }
 
@@ -386,7 +386,22 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Dept> Task14()
         {
-            IEnumerable<Dept> result = null;
+            IEnumerable<Dept> result =
+                Depts
+                    .Join(Emps,
+                        d => d.Deptno,
+                        e => e.Deptno,
+                        (d, e) => new
+                        {
+                            Deptno = d.Deptno,
+                            Dname = d.Dname,
+                            Loc = d.Loc,
+                            Empno = e.Empno
+                        })
+                    .GroupBy(d => d.Dname)
+                    .Select(d => new Dept
+                    {
+                    });
             //result =
             return result;
         }
